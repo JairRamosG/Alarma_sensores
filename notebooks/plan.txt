@@ -1,0 +1,18 @@
+Hoy/mañana:
+└── Filtrar por Motor_current > 2A
+    → guardar en data/processed/operacional.parquet
+
+Esta semana:
+└── EDA Etapa 2 sobre datos operacionales
+    → distribuciones limpias
+    → correlaciones
+    → evolución de señales cerca de fallas
+    → autocorrelación para tamaño de ventana
+    → cuántos datos quedan por falla
+
+Con esa información:
+└── Tomar decisiones de pipeline con evidencia
+    → RUL_MAX definitivo
+    → tamaño de ventana definitivo
+    → qué señales priorizar
+    → estrategia de normalización
