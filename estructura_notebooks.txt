@@ -11,6 +11,7 @@
 
 Detectar gaps grandes → marcar límites de sesión
 Remuestrear de segundos a minutos con agregación correcta por tipo de señal
+
 Filtrar régimen operacional (Motor_current > umbral)
 Identificar y numerar sesiones operacionales
 Identificar regimen 0, 1 y 2
