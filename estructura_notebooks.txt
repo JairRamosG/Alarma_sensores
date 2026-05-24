@@ -1,11 +1,11 @@
 >> 01_eda_datos_crudos.ipynb
 
-Cargar MetroPT-3 completo
-Verificar frecuencia de muestreo real y gaps
-Distribuciones de las 15 señales (ya lo tienes hecho parcialmente)
-Identificar regímenes operacionales visualmente
-Verificar timestamps de fallas en los datos
-Conclusiones que justifican las decisiones del siguiente paso
+* Cargar MetroPT-3 completo
+* Verificar frecuencia de muestreo real y gaps
+* Distribuciones de las 15 señales (ya lo tienes hecho parcialmente)
+* Identificar regímenes operacionales visualmente
+* Verificar timestamps de fallas en los datos
+* Conclusiones que justifican las decisiones del siguiente paso
 
 >> 02_preprocesamiento.ipynb
 
