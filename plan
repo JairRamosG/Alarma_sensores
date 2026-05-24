@@ -1,0 +1,74 @@
+>> 01_eda_datos_crudos.ipynb
+
+Cargar MetroPT-3 completo
+Verificar frecuencia de muestreo real y gaps
+Distribuciones de las 15 señales (ya lo tienes hecho parcialmente)
+Identificar regímenes operacionales visualmente
+Verificar timestamps de fallas en los datos
+Conclusiones que justifican las decisiones del siguiente paso
+
+>> 02_preprocesamiento.ipynb
+
+Detectar gaps grandes → marcar límites de sesión
+Remuestrear de segundos a minutos con agregación correcta por tipo de señal
+Filtrar régimen operacional (Motor_current > umbral)
+Identificar y numerar sesiones operacionales
+Guardar en data/processed/operacional.parquet
+
+>> 03_eda_datos_operacionales.ipynb
+
+Cargar operacional.parquet
+Distribuciones limpias de señales en operación
+Correlaciones entre sensores bajo carga
+Evolución de señales en las ventanas previas a cada falla
+Análisis de autocorrelación → decide tamaño de ventana
+Cuántas horas antes de cada falla cambian las señales → valida RUL_MAX
+Conclusiones que justifican features de ingeniería
+
+>> 04_feature_engineering.ipynb
+
+Variables calendario cíclicas (seno/coseno de hora, día)
+Features de ingeniería de dominio (delta_presion, temp_rate, etc.)
+Construcción de etiqueta RUL con RUL_MAX definido por EDA anterior
+Etiqueta binaria en_falla
+Lags de señales crudas Y de features de ingeniería
+Features estadísticas de ventana (media, std, tendencia)
+Guardar en data/processed/features_completas.parquet
+
+>> 05_feature_importance.ipynb
+
+Cargar features_completas.parquet
+Entrenar Random Forest rápido con hiperparámetros default
+Calcular y visualizar feature importance
+Identificar señales y lags más predictivos
+Decisión informada: ¿cuántos lags conservar?
+¿Qué features de ingeniería aportaron más?
+Guardar lista de features seleccionadas en metadata/features_seleccionadas.json
+
+>> 06_construccion_ventanas.ipynb
+
+Cargar features seleccionadas
+Definir tamaño de ventana (validado por autocorrelación del 03)
+Construir ventanas deslizantes respetando límites de sesión
+Implementar split temporal train/validation/test
+Implementar Leave-One-Failure-Out para validación
+Verificar balance de clases en cada split
+Guardar splits en data/processed/splits/
+
+>> 07_baseline_random_forest.ipynb
+
+Cargar splits
+Búsqueda de hiperparámetros con MLflow
+Entrenar con mejores hiperparámetros
+Evaluar con RMSE, MAE en test
+Visualizar predicción de RUL vs real para cada falla
+Guardar modelo en models/random_forest_best.pkl
+Guardar métricas en metadata/resultados_rf.json
+
+>> 08_comparacion_final.ipynb
+
+Cargar métricas de todos los modelos desde MLflow
+Tabla comparativa completa
+Gráficas de predicción RUL vs real por modelo
+Análisis estadístico de diferencias
+Conclusiones de tu tesis
