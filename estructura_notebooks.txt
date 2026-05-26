@@ -19,11 +19,11 @@
 
 >> 03_eda_datos_operacionales.ipynb
 
-Cargar operacional.parquet
-Distribuciones limpias de señales en operación
-Correlaciones entre sensores bajo carga
+* Cargar operacional.parquet
+* Distribuciones limpias de señales en operación
+* Correlaciones entre sensores bajo carga
 Evolución de señales en las ventanas previas a cada falla
-Análisis de autocorrelación → decide tamaño de ventana
+Análisis de autocorrelación y decide tamaño de ventana
 Cuántas horas antes de cada falla cambian las señales → valida RUL_MAX
 Conclusiones que justifican features de ingeniería
 
