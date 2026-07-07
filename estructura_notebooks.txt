@@ -9,17 +9,20 @@
 
 >> 02_preprocesamiento.ipynb
 
-* Detectar gaps grandes → marcar límites de sesión
-* Remuestrear de segundos a minutos con agregación correcta por tipo de señal
-
-* Filtrar régimen operacional (Motor_current > umbral)
-* Identificar y numerar sesiones operacionales
-* Identificar regimen 0, 1 y 2
-* Guardar en data/processed/operacional.parquet
+* Detectar gaps grandes → marcar id_segmento (ciclos de vida para RUL)
+* Regularizar cada segmento a rejilla exacta de 10 s (SIN downsample a 1 min)
+  - analógicas: mean | binarias: last | Caudal_impulses: sum
+* Identificar régimen 0/1/2 (Motor_current > 2A + DV_eletric)
+* PRESERVAR régimen 0 para continuidad temporal (necesario en RUL)
+* Guardar DOS salidas:
+  - data/processed/preprocesado_completo.parquet  (todos los regímenes, base para RUL)
+  - data/processed/operacional.parquet            (regímenes 1 y 2, con id_sesion)
+* NO descartar segmentos cortos aquí → se hace al construir ventanas (notebook 06)
 
 >> 03_eda_datos_operacionales.ipynb
 
-* Cargar operacional.parquet
+* Cargar operacional.parquet (regímenes 1 y 2)
+* Para la curva de RUL / continuidad temporal usar preprocesado_completo.parquet
 * Distribuciones limpias de señales en operación
 * Correlaciones entre sensores bajo carga
 Evolución de señales en las ventanas previas a cada falla

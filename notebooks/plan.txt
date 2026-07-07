@@ -1,6 +1,8 @@
-Hoy/mañana:
-└── Filtrar por Motor_current > 2A
-    → guardar en data/processed/operacional.parquet
+HECHO (02_preprocesamiento reestructurado para RUL):
+└── Resolución 10s nativa conservada (sin downsample a 1 min)
+    Régimen 0 preservado para continuidad temporal
+    → data/processed/preprocesado_completo.parquet (1.5M filas, base RUL)
+    → data/processed/operacional.parquet (688K filas, rég. 1 y 2, 374 sesiones)
 
 Esta semana:
 └── EDA Etapa 2 sobre datos operacionales
