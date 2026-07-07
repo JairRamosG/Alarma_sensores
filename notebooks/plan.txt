@@ -11,12 +11,18 @@ HECHO (03_EDA_degradacion - decisiones con evidencia):
                           Oil_temperature, Motor_current + binarias de régimen, LPS
     Normalización por sesión para deriva térmica
 
-SIGUE (04_FE - feature engineering):
-└── Reescribir para el nuevo pipeline (carga parquets correctos, resolución coherente)
-    → Variables calendario cíclicas (hora/día seno-coseno)
-    → Features de dominio (delta_presion, TP2-TP3, ratios de carga, temp_rate)
-    → Etiqueta RUL con RUL_MAX = 48 h (sobre timestamps reales del completo)
-    → Etiqueta binaria en_falla
-    → Lags de señales crudas y de ingeniería (dentro de cada sesión)
-    → Features estadísticas de ventana = 60 min (media, std, tendencia)
-    → guardar en data/processed/features_completas.parquet
+HECHO (04_FE - feature engineering, reescrito y ejecutado sin errores):
+└── Etiqueta RUL sobre preprocesado_completo (tiempo real a la próxima falla, censurado a 48h)
+    Features sobre filas operacionales (rég. 1/2), todo por id_sesion (anti-leakage)
+    Resolución 10s nativa; ventanas en nº de filas (60min=360, 30min=180, 15min=90)
+    → Calendario cíclico (hora/día seno-coseno)
+    → Dominio: delta_TP3_Reservoirs, TP2-TP3, temp_rate, ratio_carga, arranques, lps_count, z-scores
+    → Tendencia/residuo por sesión (mediana móvil causal = ciclo; STL descartado por costo)
+    → Ventana: media/std/min/max (15/30/60min) + pendiente vectorizada 60min
+    → Lags de crudas + dominio (1/5/15 min)
+    → Etiqueta binaria en_falla (umbral 24h)
+    → data/processed/features_completas.parquet (517,825 filas × 168 cols, 162 features, 326 sesiones)
+
+SIGUE (05_feature_importance):
+└── RF rápido sobre features_completas → importancia, resolver TP3↔Reservoirs,
+    decidir nº de lags, guardar metadata/features_seleccionadas.json
