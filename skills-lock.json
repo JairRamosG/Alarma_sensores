@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "matplotlib": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "skillPath": "cli-tool/components/skills/scientific/matplotlib/SKILL.md",
+      "computedHash": "5049b58b88810aa7f59713564ccf612b6c17db82ddfd709ccd0b1799a6698fe6"
+    },
+    "numpy-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "numpy-best-practices/SKILL.md",
+      "computedHash": "3ffc9b27585527c22a845c38bb91fd9f9d2d86da72a735180e6e3ae5d0c3e06f"
+    },
+    "pandas-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pandas-pro/SKILL.md",
+      "computedHash": "386d7588ba685df487079293be0f6d026467db579df9337c798aeb20e2d82a59"
+    },
+    "statsmodels": {
+      "source": "k-dense-ai/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/statsmodels/SKILL.md",
+      "computedHash": "82369e843744a403f0e82fb5af2ad0468f889737b88e6097b537899465e6de45"
+    }
+  }
+}
