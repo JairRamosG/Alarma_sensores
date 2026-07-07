@@ -1,20 +1,22 @@
-HECHO (02_preprocesamiento reestructurado para RUL):
+HECHO (02_PREPROS reestructurado para RUL):
 └── Resolución 10s nativa conservada (sin downsample a 1 min)
     Régimen 0 preservado para continuidad temporal
     → data/processed/preprocesado_completo.parquet (1.5M filas, base RUL)
     → data/processed/operacional.parquet (688K filas, rég. 1 y 2, 374 sesiones)
 
-Esta semana:
-└── EDA Etapa 2 sobre datos operacionales
-    → distribuciones limpias
-    → correlaciones
-    → evolución de señales cerca de fallas
-    → autocorrelación para tamaño de ventana
-    → cuántos datos quedan por falla
+HECHO (03_EDA_degradacion - decisiones con evidencia):
+└── RUL_MAX = 48 h (desviación de DV_pressure aparece 40-72h antes de cada falla)
+    Ventana = 60 min (ACF estacional: memoria 1-2h, ciclo operacional ~9 min)
+    Señales prioritarias: presiones (TP2, DV_pressure, Reservoirs, TP3, H1),
+                          Oil_temperature, Motor_current + binarias de régimen, LPS
+    Normalización por sesión para deriva térmica
 
-Con esa información:
-└── Tomar decisiones de pipeline con evidencia
-    → RUL_MAX definitivo
-    → tamaño de ventana definitivo
-    → qué señales priorizar
-    → estrategia de normalización
+SIGUE (04_FE - feature engineering):
+└── Reescribir para el nuevo pipeline (carga parquets correctos, resolución coherente)
+    → Variables calendario cíclicas (hora/día seno-coseno)
+    → Features de dominio (delta_presion, TP2-TP3, ratios de carga, temp_rate)
+    → Etiqueta RUL con RUL_MAX = 48 h (sobre timestamps reales del completo)
+    → Etiqueta binaria en_falla
+    → Lags de señales crudas y de ingeniería (dentro de cada sesión)
+    → Features estadísticas de ventana = 60 min (media, std, tendencia)
+    → guardar en data/processed/features_completas.parquet

@@ -19,22 +19,23 @@
   - data/processed/operacional.parquet            (regímenes 1 y 2, con id_sesion)
 * NO descartar segmentos cortos aquí → se hace al construir ventanas (notebook 06)
 
->> 03_eda_datos_operacionales.ipynb
+>> 03_EDA_degradacion.ipynb  (EDA de degradación / pre-falla)
 
-* Cargar operacional.parquet (regímenes 1 y 2)
-* Para la curva de RUL / continuidad temporal usar preprocesado_completo.parquet
-* Distribuciones limpias de señales en operación
-* Correlaciones entre sensores bajo carga
-Evolución de señales en las ventanas previas a cada falla
-Análisis de autocorrelación y decide tamaño de ventana
-Cuántas horas antes de cada falla cambian las señales → valida RUL_MAX
-Conclusiones que justifican features de ingeniería
+* Cargar AMBOS parquets: completo (continuidad temporal) + operacional (distribuciones)
+* Remuestreo a 1 min DENTRO del 03 (suficiente para degradación de horas; parquets 10s intactos)
+* Distribuciones y correlaciones en operación (por régimen) → priorizar señales
+* Autocorrelación sobre componente estacional (STL) → tamaño de ventana
+* Evolución 72h antes de cada falla + z-score → cuándo empieza la desviación
+* DECISIONES tomadas con evidencia:
+  - RUL_MAX = 48 h (desviación de DV_pressure aparece 40-72h antes; corrige el 24h previo)
+  - Ventana = 60 min (ACF estacional: memoria 1-2h, ciclo operacional ~9 min)
+  - Normalización por sesión para deriva térmica
 
 >> 04_feature_engineering.ipynb
 
 Variables calendario cíclicas (seno/coseno de hora, día)
 Features de ingeniería de dominio (delta_presion, temp_rate, etc.)
-Construcción de etiqueta RUL con RUL_MAX definido por EDA anterior
+Construcción de etiqueta RUL con RUL_MAX = 48 h (definido en el 03)
 Etiqueta binaria en_falla
 Lags de señales crudas Y de features de ingeniería
 Features estadísticas de ventana (media, std, tendencia)
