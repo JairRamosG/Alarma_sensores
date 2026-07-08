@@ -3,4 +3,4 @@ data/*.csv
 .agents/
 .vscode/
 skills-lock.json
-.atl/
+.atl/data/processed/*.parquet
